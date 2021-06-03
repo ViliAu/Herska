@@ -215,7 +215,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
         gridScale *= 10;
         Mathf.Round(gridScale);
         gridScale *= 0.1f;
-        grid.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureScale = new Vector2((1/gridScale) * 100, (1/gridScale) * 100);
+        //grid.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureScale = new Vector2((1/gridScale) * 100, (1/gridScale) * 100);
     }
 
     private class Category {
