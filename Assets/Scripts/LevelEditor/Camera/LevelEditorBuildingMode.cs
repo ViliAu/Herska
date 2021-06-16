@@ -12,6 +12,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     [SerializeField] private float rotationSensitivity = 300f;
 
     [SerializeField] private GameObject grid = null;
+    [SerializeField] private GameObject worldAnchor = null;
     [SerializeField] private float rayMaxDistance = 100;
     [SerializeField] private LayerMask rayMask = 1;
     [SerializeField] private Material ghostMaterial = null;
@@ -29,6 +30,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
 
     public GameObject buildObject = null;
     public GameObject ghostObject = null;
+    public GameObject selectedObject = null;
 
 
     private void Start() {
@@ -64,11 +66,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     }
 
     private void UpdateBuildPosition() {
-        if (ghostObject == null) {
-            Debug.LogError("Build tool ghost is null. Maybe a build item is not assigned");
-            return;
-        }
-        if (LevelEditor.Instance.Input.r) {
+        if (ghostObject == null || LevelEditor.Instance.Input.r) {
             return;
         }
         // Setup anchoring
@@ -126,7 +124,10 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     private void CheckInput() {
         RotateObject();
         if (LevelEditor.Instance.Input.leftMouse == 1) {
-            BuildObjectSingle();
+            if (ghostObject != null)
+                BuildObjectSingle();
+            else
+                SelectObjectSingle();
         }
         if (LevelEditor.Instance.Input.rightMouse == 1) {
             DeleteObject();
@@ -160,6 +161,18 @@ public class LevelEditorBuildingMode : MonoBehaviour {
             ScaleGrid();
         }
 
+        // CHAGNE TO SELECT MODE AND BUILD MODE
+        if (LevelEditor.Instance.Input.tabDown) {
+            if (ghostObject != null) {
+                Destroy(ghostObject);
+                ghostObject = null;
+            }
+            else {
+                selectedObject = null;
+                SpawnGhost();
+            }
+        }
+
     }
 
     private void DeleteObject() {
@@ -186,6 +199,11 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     private void BuildObjectSingle() {
         Instantiate(buildObject, ghostObject.transform.position, ghostObject.transform.rotation);
         previousBuildPosition = ghostObject.transform.position;
+    }
+
+    private void SelectObjectSingle() {
+        selectedObject = hit.collider.gameObject;
+
     }
 
     private void BuildObjectBrush() {

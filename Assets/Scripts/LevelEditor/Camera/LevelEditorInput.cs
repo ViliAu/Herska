@@ -30,10 +30,11 @@ public class LevelEditorInput : MonoBehaviour {
     [HideInInspector] public bool pgDownDown = false;
     [HideInInspector] public bool plusDown = false;
     [HideInInspector] public bool minusDown = false;
+    [HideInInspector] public bool tabDown = false;
 
     private void Update() {
         CheckMouse();
-        CheckKeyBoard();
+        CheckKeyboard();
     }
 
     private void CheckMouse() {
@@ -53,7 +54,7 @@ public class LevelEditorInput : MonoBehaviour {
         rightMouseHold = Input.GetKey(KeyCode.Mouse1);
     }
 
-    private void CheckKeyBoard() {
+    private void CheckKeyboard() {
         shift = Input.GetKey(KeyCode.LeftShift);
         ctrl = Input.GetKey(KeyCode.LeftControl);
         x = Input.GetKey(KeyCode.X);
@@ -70,6 +71,7 @@ public class LevelEditorInput : MonoBehaviour {
         pgDownDown = Input.GetKeyDown(KeyCode.PageDown);
         plusDown = Input.GetKeyDown(KeyCode.KeypadPlus);
         minusDown = Input.GetKeyDown(KeyCode.KeypadMinus);
+        tabDown = Input.GetKeyDown(KeyCode.Tab);
 
         numpad = GetNumpad();
         pressedNum = GetNum();
