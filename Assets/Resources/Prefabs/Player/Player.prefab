@@ -266,10 +266,10 @@ MonoBehaviour:
   acceleration: 50
   deceleration: 10
   crouchSpeed: 3
-  airAcceleration: 1
-  gravity: 30
+  airAcceleration: 5
+  gravity: 70
   maximumGravity: 120
-  jumpHeight: 15
+  jumpHeight: 20
   ladderWidth: 0.1
   climbSpeed: 1
   ladderMaxAngle: 10

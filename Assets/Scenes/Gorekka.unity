@@ -189,7 +189,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 185fe05a6ecc20643aaa3d250e341e68, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 76f8047c29c14b94dafc2093e28db3c8, type: 2}
+      objectReference: {fileID: 2100000, guid: 1a4d453ff8d9cb54c80b82a1fdc2e8c0, type: 2}
     - target: {fileID: 919132149155446097, guid: 185fe05a6ecc20643aaa3d250e341e68, type: 3}
       propertyPath: m_Name
       value: Spitter_Low
