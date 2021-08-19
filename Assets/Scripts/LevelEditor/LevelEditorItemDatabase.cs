@@ -11,4 +11,8 @@ public static class LevelEditorItemDatabase {
         return Resources.LoadAll<GameObject>(prefix+"/floors");
     }
 
+    public static GameObject[] LoadProps() {
+        return Resources.LoadAll<GameObject>(prefix+"/props");
+    }
+
 }

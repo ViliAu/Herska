@@ -36,6 +36,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     private void Start() {
         categories.Add(new Category(LevelEditorItemDatabase.LoadWalls()));
         categories.Add(new Category(LevelEditorItemDatabase.LoadFloors()));
+        categories.Add(new Category(LevelEditorItemDatabase.LoadProps()));
 
         SpawnGhost();
     }
