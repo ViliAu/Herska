@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89eece8f1b1538d409f35e76ba0f9882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 600
+  sensitivity: 333
   input: {x: 0, y: 0, z: 0}
   mouseInput: {x: 0, y: 0}
   pressedNum: -1
