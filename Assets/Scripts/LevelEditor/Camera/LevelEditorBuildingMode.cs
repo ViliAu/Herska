@@ -17,12 +17,16 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     [SerializeField] private LayerMask rayMask = 1;
     [SerializeField] private Material ghostMaterial = null;
 
+    [Header("Bool settings")]
+    [SerializeField] private bool brush = false;
+    [SerializeField] private bool placeAlongNormals = false;
+
     private Vector3 buildPosition = Vector3.zero;
     private Vector3 previousBuildPosition = new Vector3(0, -200, 0);
     private Vector3 placementAnchor = Vector3.zero;
+    private float assignedRotation = 0;
 
     private RaycastHit hit;
-    private bool brush = false;
 
     // 1. WALLS 2. FLOORS
     private List<Category> categories = new List<Category>();
@@ -49,8 +53,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
         }
         if (buildObject != null) {
             ghostObject = Instantiate<GameObject>(buildObject, buildPosition, prevGhostRotation);
-            if (ghostMaterial != null)
-                ghostObject.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+            ghostObject.GetComponentInChildren<MeshRenderer>().material.color += new Color(1f, 1f, 1f);
             EntityManager.ChangeLayer(ghostObject, 2);
         }
     }
@@ -116,9 +119,7 @@ public class LevelEditorBuildingMode : MonoBehaviour {
         }
         // Set anchor to vec3.zero if no anchor keys are pressed.
         else {
-            if (placementAnchor != Vector3.zero) {
-                placementAnchor = Vector3.zero;
-            }
+            placementAnchor = Vector3.zero;
         }
     }
 
@@ -144,6 +145,9 @@ public class LevelEditorBuildingMode : MonoBehaviour {
         }
         if (LevelEditor.Instance.Input.gDown) {
             gridSnap = !gridSnap;
+        }
+        if (LevelEditor.Instance.Input.nDown) {
+            placeAlongNormals = !placeAlongNormals;
         }
         if (LevelEditor.Instance.Input.hDown) {
             grid.SetActive(!grid.activeInHierarchy);
@@ -187,13 +191,24 @@ public class LevelEditorBuildingMode : MonoBehaviour {
     private void RotateObject() {
         if (LevelEditor.Instance.Input.eDown) {
             // If smooth rotation was enabled the rotation can be a bit offset
-            ghostObject.transform.Rotate(new Vector3(0, rotationSnapAmount - (ghostObject.transform.rotation.eulerAngles.y % rotationSnapAmount)));
+            //ghostObject.transform.Rotate(new Vector3(0, rotationSnapAmount - (ghostObject.transform.rotation.eulerAngles.y % rotationSnapAmount)));
+            assignedRotation += rotationSnapAmount;
         }
         else if (LevelEditor.Instance.Input.qDown) {
-                ghostObject.transform.Rotate(new Vector3(0, -rotationSnapAmount - (ghostObject.transform.rotation.eulerAngles.y % rotationSnapAmount), 0));
+            //ghostObject.transform.Rotate(new Vector3(0, -rotationSnapAmount - (ghostObject.transform.rotation.eulerAngles.y % rotationSnapAmount), 0));
+            assignedRotation -= rotationSnapAmount;
         }
         else if (LevelEditor.Instance.Input.r) {
-            ghostObject.transform.rotation = Quaternion.Euler(0, ghostObject.transform.rotation.eulerAngles.y - LevelEditor.Instance.Input.mouseInput.x * Time.deltaTime * rotationSensitivity, 0);
+            //ghostObject.transform.rotation = Quaternion.Euler(0, ghostObject.transform.rotation.eulerAngles.y - LevelEditor.Instance.Input.mouseInput.x * Time.deltaTime * rotationSensitivity, 0);
+            assignedRotation -= LevelEditor.Instance.Input.mouseInput.x * Time.deltaTime * rotationSensitivity;
+        }
+
+        // Rotate along normals?
+        if (placeAlongNormals && hit.collider != null) {
+            ghostObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(0, assignedRotation, 0);
+        }
+        else {
+            ghostObject.transform.rotation = Quaternion.Euler(0, assignedRotation, 0);
         }
     }
 

@@ -31,6 +31,7 @@ public class LevelEditorInput : MonoBehaviour {
     [HideInInspector] public bool plusDown = false;
     [HideInInspector] public bool minusDown = false;
     [HideInInspector] public bool tabDown = false;
+    [HideInInspector] public bool nDown = false;
 
     private void Update() {
         CheckMouse();
@@ -67,6 +68,7 @@ public class LevelEditorInput : MonoBehaviour {
         bDown = Input.GetKeyDown(KeyCode.B);
         gDown = Input.GetKeyDown(KeyCode.G);
         hDown = Input.GetKeyDown(KeyCode.H);
+        nDown = Input.GetKeyDown(KeyCode.N);
         pgUpDown = Input.GetKeyDown(KeyCode.PageUp);
         pgDownDown = Input.GetKeyDown(KeyCode.PageDown);
         plusDown = Input.GetKeyDown(KeyCode.KeypadPlus);
